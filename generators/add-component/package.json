@@ -1,0 +1,12 @@
+{
+  "name": "generator-add-component",
+  "version": "0.0.1",
+  "description": "add component to react-comp-lib-template",
+  "files": [
+    "dummyfile.txt"
+  ],
+  "keywords": ["yeoman-generator"],
+  "dependencies": {
+    "yeoman-generator": "^4.12.0"
+  }
+}

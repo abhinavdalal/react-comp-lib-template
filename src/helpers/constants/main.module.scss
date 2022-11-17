@@ -1,0 +1,6 @@
+@import '~/main';
+
+:export {
+  shortTransitionDuration: $shortTransitionDuration;
+  longTransitionDuration: $longTransitionDuration;
+}

@@ -1,0 +1,75 @@
+name: Deploy Storybook
+on:
+  pull_request:
+    types: [review_requested, ready_for_review]
+  push:
+    branches:
+      - master
+
+jobs:
+  chromatic:
+    name: Deploy Storybook
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Required to retrieve git history
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: v14.16.0
+          registry-url: 'https://npm.pkg.github.com/group_name_to_be_updated'
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true
+
+  checks:
+    name: Run Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Required to retrieve git history
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: v14.16.0
+          registry-url: 'https://npm.pkg.github.com/group_name_to_be_updated'
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+      # - name: Tests
+      #   run: npm run test
