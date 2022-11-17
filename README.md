@@ -42,7 +42,7 @@ import Component from 'npm_package_name/ComponentName';
 - Every component accepts a `classes` object prop that can be used to override its internal css props to various parts of the component.
 - the keys to the classes object of a component are well documented in the storybook under the section 'styles'; should also be available via the typescript autocomplete in mordern ide like vs-code.
 - it will always contain atleast a root key which should be applied at the highest level of tha component.
-- example for ProfileNav:
+- example for ComponentName:
  we use `justify-content: flex-end;` by default in its root since its usage is expected to be as right aligned; however if there is an instance where this component needs to be right aligned then we can do the following:
   ```scss
   // ComponentName.module.scss
